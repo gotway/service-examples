@@ -5,19 +5,13 @@
 *.so
 *.dylib
 bin/
-.DS_Store
 
-# Test binary, built with `go test -c`
+# Test
 *.test
+*_test.go
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
 # Dependency directories (remove the comment below to include it)
 vendor/
-
-# Chart dependencies
-charts/**/charts/*.tgz
-
-# Docker data volumes
-data/
