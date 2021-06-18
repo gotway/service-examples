@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	m "github.com/gotway/gotway/cmd/catalog/model"
-	s "github.com/gotway/gotway/cmd/catalog/service"
+	m "github.com/gotway/service-examples/cmd/catalog/model"
+	s "github.com/gotway/service-examples/cmd/catalog/service"
 )
 
 var productService s.ProductService

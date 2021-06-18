@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/gotway/gotway/cmd/catalog/config"
+	"github.com/gotway/service-examples/cmd/catalog/config"
 )
 
 // NewAPI Starts a new HTTP server

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gotway/gotway/cmd/stock/api"
-	"github.com/gotway/gotway/cmd/stock/redis"
+	"github.com/gotway/service-examples/cmd/stock/api"
+	"github.com/gotway/service-examples/cmd/stock/redis"
 )
 
 func main() {

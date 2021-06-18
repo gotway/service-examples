@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	m "github.com/gotway/gotway/cmd/stock/model"
-	s "github.com/gotway/gotway/cmd/stock/service"
+	m "github.com/gotway/service-examples/cmd/stock/model"
+	s "github.com/gotway/service-examples/cmd/stock/service"
 
 	"github.com/gorilla/mux"
 )

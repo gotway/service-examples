@@ -7,7 +7,7 @@ import (
 	t "time"
 
 	"github.com/go-redis/redis/v8"
-	conf "github.com/gotway/gotway/cmd/stock/config"
+	conf "github.com/gotway/service-examples/cmd/stock/config"
 )
 
 var client *redis.Client

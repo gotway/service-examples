@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gotway/gotway/cmd/catalog/api"
+	"github.com/gotway/service-examples/cmd/catalog/api"
 )
 
 func main() {

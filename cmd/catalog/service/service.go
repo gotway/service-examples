@@ -1,7 +1,7 @@
 package service
 
 import (
-	m "github.com/gotway/gotway/cmd/catalog/model"
+	m "github.com/gotway/service-examples/cmd/catalog/model"
 )
 
 // ProductService manages product business logic

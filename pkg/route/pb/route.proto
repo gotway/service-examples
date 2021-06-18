@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/gotway/gotway/cmd/route/route";
+option go_package = "github.com/gotway/service-examples/pkg/route";
 
 package route;
 

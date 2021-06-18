@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/gotway/gotway/cmd/route/config"
-	"github.com/gotway/gotway/cmd/route/server"
+	"github.com/gotway/service-examples/cmd/route/config"
+	"github.com/gotway/service-examples/cmd/route/server"
 )
 
 func main() {
