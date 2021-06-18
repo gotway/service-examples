@@ -1,7 +1,17 @@
 version: "3.3"
 
-services:      
+services:
+  redis:
+    container_name: gotway-redis
+    image: redis:6.2.4-alpine3.13
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+
   catalog:
+    container_name: gotway-catalog
     image: gotwaygateway/catalog:v0.0.1
     environment:
       - CATALOG_SERVICE_PORT=12000
@@ -9,6 +19,7 @@ services:
       - "12000:12000"
 
   stock:
+    container_name: gotway-stock
     image: gotwaygateway/stock:v0.0.1
     depends_on:
       - redis
@@ -19,6 +30,7 @@ services:
       - "13000:13000"
 
   route:
+    container_name: gotway-route
     image: gotwaygateway/route:v0.0.1
     environment:
       - ROUTE_SERVICE_PORT=14000
