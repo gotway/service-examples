@@ -13,6 +13,7 @@ services:
   catalog:
     container_name: gotway-catalog
     image: gotwaygateway/catalog:v0.0.1
+    restart: unless-stopped
     environment:
       - CATALOG_SERVICE_PORT=12000
     ports:
@@ -21,6 +22,7 @@ services:
   stock:
     container_name: gotway-stock
     image: gotwaygateway/stock:v0.0.1
+    restart: unless-stopped
     depends_on:
       - redis
     environment:
@@ -32,6 +34,7 @@ services:
   route:
     container_name: gotway-route
     image: gotwaygateway/route:v0.0.1
+    restart: unless-stopped
     environment:
       - ROUTE_SERVICE_PORT=14000
     ports:
