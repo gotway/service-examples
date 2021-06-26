@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gotway/gotway/pkg/log"
-	tlsTest "github.com/gotway/gotway/pkg/tlstest"
+	"github.com/gotway/gotway/pkg/tlstest"
 	route "github.com/gotway/service-examples/pkg/route"
 )
 
@@ -22,12 +22,12 @@ var (
 	tls            = flag.Bool("tls", false, "Enable TLS")
 	tlsCa          = flag.String(
 		"tls_ca",
-		tlsTest.CA(),
+		tlstest.CA(),
 		"Certificate authority file for TLS",
 	)
 	tlsServerHost = flag.String(
 		"tls_server_host",
-		"x.test.youtube.com",
+		tlstest.Server(),
 		"The server name used to verify the hostname returned by the TLS handshake",
 	)
 	ctx = context.Background()
