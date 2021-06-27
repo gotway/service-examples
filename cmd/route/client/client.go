@@ -64,13 +64,13 @@ func main() {
 	}
 	logger.Info("health check ", res)
 
-	feature, err := client.GetFeature(ctx, validPoint)
+	feature, err := client.GetFeature(ctx, route.ValidPoint)
 	if err != nil {
 		logger.Error("get feature failed ", err)
 	}
 	logger.Info("get feature ", feature)
 
-	features, err := client.ListFeatures(ctx, rect)
+	features, err := client.ListFeatures(ctx, route.Rect)
 	if err != nil {
 		logger.Error("list features failed ", err)
 	}

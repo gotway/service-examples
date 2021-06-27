@@ -7,11 +7,11 @@ import (
 	pb "github.com/gotway/service-examples/pkg/route/pb"
 )
 
-var validPoint = &pb.Point{Latitude: 409146138, Longitude: -746188906}
+var ValidPoint = &pb.Point{Latitude: 409146138, Longitude: -746188906}
 
-var invalidPoint = &pb.Point{Latitude: 0, Longitude: 0}
+var InvalidPoint = &pb.Point{Latitude: 0, Longitude: 0}
 
-var rect = &pb.Rectangle{
+var Rect = &pb.Rectangle{
 	Lo: &pb.Point{Latitude: 410000000, Longitude: -740000000},
 	Hi: &pb.Point{Latitude: 415000000, Longitude: -745000000},
 }
