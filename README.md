@@ -1,4 +1,6 @@
 # service-examples
+[![Release](https://github.com/gotway/service-examples/actions/workflows/release.yml/badge.svg)](https://github.com/gotway/service-examples/actions/workflows/release.yml)
+
 Service examples used for testing purposes
 
 
