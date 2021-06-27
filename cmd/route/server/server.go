@@ -73,6 +73,7 @@ func (s *routeServer) RecordRoute(stream pb.Route_RecordRouteServer) error {
 }
 
 func (s *routeServer) RouteChat(stream pb.Route_RouteChatServer) error {
+	defer s.resetRouteNotes()
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {
@@ -93,6 +94,12 @@ func (s *routeServer) RouteChat(stream pb.Route_RouteChatServer) error {
 			}
 		}
 	}
+}
+
+func (s *routeServer) resetRouteNotes() {
+	s.mux.Lock()
+	defer s.mux.Unlock()
+	s.routeNotes = make(map[string][]*pb.RouteNote)
 }
 
 func (s *routeServer) loadFeatures() {
