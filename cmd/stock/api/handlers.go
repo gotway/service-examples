@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	m "github.com/gotway/service-examples/cmd/stock/model"
-	s "github.com/gotway/service-examples/cmd/stock/service"
+	"github.com/gotway/service-examples/cmd/stock/service"
+	"github.com/gotway/service-examples/pkg/stock"
 
 	"github.com/gorilla/mux"
 )
@@ -23,7 +23,7 @@ func upsertStock(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var stockData m.StockData
+	var stockData stock.StockData
 	_ = json.NewDecoder(r.Body).Decode(&stockData)
 	if !stockData.IsValid() {
 		setHeaders(w)
@@ -31,7 +31,7 @@ func upsertStock(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	stock := stockData.ToStock(productID)
-	resultStock, stockError := s.UpsertStock(productID, &stock)
+	resultStock, stockError := service.UpsertStock(productID, &stock)
 	if stockError != nil {
 		handleError(w, stockError)
 		return
@@ -42,14 +42,14 @@ func upsertStock(w http.ResponseWriter, r *http.Request) {
 }
 
 func upsertStockList(w http.ResponseWriter, r *http.Request) {
-	var stockList m.StockList
+	var stockList stock.StockList
 	_ = json.NewDecoder(r.Body).Decode(&stockList)
 	if !stockList.IsValid() {
 		setHeaders(w)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	resultStockList := s.UpsertStockList(stockList.Stock)
+	resultStockList := service.UpsertStockList(stockList.Stock)
 	if !resultStockList.HasStock() {
 		setHeaders(w)
 		w.WriteHeader(http.StatusNotFound)
@@ -67,7 +67,7 @@ func getStock(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	stock, stockErr := s.GetStock(productID)
+	stock, stockErr := service.GetStock(productID)
 	if stockErr != nil {
 		handleError(w, stockErr)
 		return
@@ -84,7 +84,7 @@ func getStockList(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	stockList := s.GetStockList(productIDs)
+	stockList := service.GetStockList(productIDs)
 	if !stockList.HasStock() {
 		setHeaders(w)
 		w.WriteHeader(http.StatusNotFound)
@@ -126,7 +126,7 @@ func getProductIDs(r *http.Request) []int {
 	return productIDs
 }
 
-func handleError(w http.ResponseWriter, err *m.StockError) {
+func handleError(w http.ResponseWriter, err *stock.StockError) {
 	log.Print(err)
 	setHeaders(w)
 	w.WriteHeader(err.Code)

@@ -4,29 +4,29 @@ import (
 	"strconv"
 	"sync"
 
-	m "github.com/gotway/service-examples/cmd/stock/model"
 	"github.com/gotway/service-examples/cmd/stock/redis"
+	"github.com/gotway/service-examples/pkg/stock"
 )
 
 // UpsertStock upserts the stock of a product
-func UpsertStock(productID int, stock *m.Stock) (*m.Stock, *m.StockError) {
+func UpsertStock(productID int, s *stock.Stock) (*stock.Stock, *stock.StockError) {
 	key := getKey(productID)
-	ttl, err := redis.Set(key, stock.Units, stock.TTL)
+	ttl, err := redis.Set(key, s.Units, s.TTL)
 	if err != nil {
-		return nil, m.InternalError(productID, err)
+		return nil, stock.InternalError(productID, err)
 	}
-	resultStock := &m.Stock{ProductID: productID, Units: stock.Units, TTL: ttl}
+	resultStock := &stock.Stock{ProductID: productID, Units: s.Units, TTL: ttl}
 	return resultStock, nil
 }
 
 // UpsertStockList upserts the stock of a list of products
-func UpsertStockList(stockList []m.Stock) m.StockList {
+func UpsertStockList(stockList []stock.Stock) stock.StockList {
 	var wg sync.WaitGroup
-	var sl m.StockList
+	var sl stock.StockList
 
 	wg.Add(len(stockList))
-	for _, stock := range stockList {
-		go func(s m.Stock) {
+	for _, item := range stockList {
+		go func(s stock.Stock) {
 			defer wg.Done()
 			resultStock, err := UpsertStock(s.ProductID, &s)
 			if err == nil {
@@ -34,7 +34,7 @@ func UpsertStockList(stockList []m.Stock) m.StockList {
 			} else {
 				sl.HandleError(err)
 			}
-		}(stock)
+		}(item)
 	}
 	wg.Wait()
 
@@ -42,7 +42,7 @@ func UpsertStockList(stockList []m.Stock) m.StockList {
 }
 
 // GetStock gets the stock of a product
-func GetStock(productID int) (*m.Stock, *m.StockError) {
+func GetStock(productID int) (*stock.Stock, *stock.StockError) {
 	unitsChan := make(chan stockResult)
 	ttlChan := make(chan stockResult)
 
@@ -57,14 +57,14 @@ func GetStock(productID int) (*m.Stock, *m.StockError) {
 		return nil, units.err
 	}
 
-	stock := &m.Stock{ProductID: productID, Units: units.val, TTL: ttl.val}
+	stock := &stock.Stock{ProductID: productID, Units: units.val, TTL: ttl.val}
 	return stock, nil
 }
 
 // GetStockList gets the stock of a list of products
-func GetStockList(productIDs []int) m.StockList {
+func GetStockList(productIDs []int) stock.StockList {
 	var wg sync.WaitGroup
-	var sl m.StockList
+	var sl stock.StockList
 
 	wg.Add(len(productIDs))
 	for _, productID := range productIDs {
@@ -89,7 +89,7 @@ func getKey(productID int) string {
 
 type stockResult struct {
 	val int
-	err *m.StockError
+	err *stock.StockError
 }
 
 func getStockUnits(productID int, c chan stockResult) {
@@ -97,16 +97,16 @@ func getStockUnits(productID int, c chan stockResult) {
 	defer close(c)
 	val, err := redis.Get(key)
 	if err != nil {
-		c <- stockResult{0, m.OutOfStockError(productID)}
+		c <- stockResult{0, stock.OutOfStockError(productID)}
 		return
 	}
 	units, parseErr := strconv.Atoi(val)
 	if parseErr != nil {
-		c <- stockResult{0, m.InternalError(productID, parseErr)}
+		c <- stockResult{0, stock.InternalError(productID, parseErr)}
 		return
 	}
 	if units <= 0 {
-		c <- stockResult{0, m.OutOfStockError(productID)}
+		c <- stockResult{0, stock.OutOfStockError(productID)}
 		return
 	}
 	c <- stockResult{units, nil}
@@ -117,7 +117,7 @@ func getTTL(productID int, c chan stockResult) {
 	defer close(c)
 	ttl, err := redis.TTL(key)
 	if err != nil {
-		c <- stockResult{0, m.OutOfStockError(productID)}
+		c <- stockResult{0, stock.OutOfStockError(productID)}
 		return
 	}
 	c <- stockResult{ttl, nil}

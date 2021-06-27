@@ -1,4 +1,4 @@
-package model
+package stock
 
 import (
 	"errors"
@@ -31,7 +31,11 @@ var outOfStockErrorCode = http.StatusNotFound
 
 // OutOfStockError is raised when a product has no stock
 func OutOfStockError(productID int) *StockError {
-	return &StockError{Code: outOfStockErrorCode, ProductID: productID, Err: errors.New("Out of stock")}
+	return &StockError{
+		Code:      outOfStockErrorCode,
+		ProductID: productID,
+		Err:       errors.New("Out of stock"),
+	}
 }
 
 var internalErrorCode = http.StatusInternalServerError

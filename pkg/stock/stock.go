@@ -1,4 +1,4 @@
-package model
+package stock
 
 // StockData represents the data relative to stock
 type StockData struct {

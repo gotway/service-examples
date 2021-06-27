@@ -1,4 +1,4 @@
-package model
+package catalog
 
 import (
 	"fmt"
@@ -34,7 +34,7 @@ type ProductCreated struct {
 	ID int `json:"id"`
 }
 
-var notFoundError = &ProductError{Code: http.StatusNotFound, Message: "Not found"}
+var NotFoundError = &ProductError{Code: http.StatusNotFound, Message: "Not found"}
 
 // ProductPage model
 type ProductPage struct {

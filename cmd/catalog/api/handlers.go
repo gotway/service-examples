@@ -8,11 +8,11 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	m "github.com/gotway/service-examples/cmd/catalog/model"
-	s "github.com/gotway/service-examples/cmd/catalog/service"
+	"github.com/gotway/service-examples/cmd/catalog/service"
+	"github.com/gotway/service-examples/pkg/catalog"
 )
 
-var productService s.ProductService
+var productService service.ProductService
 
 func health(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
@@ -46,14 +46,14 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func createProduct(w http.ResponseWriter, r *http.Request) {
-	var product m.Product
+	var product catalog.Product
 	_ = json.NewDecoder(r.Body).Decode(&product)
 	if !product.IsValid() {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	productService.AddProduct(&product)
-	res := m.ProductCreated{ID: product.ID}
+	res := catalog.ProductCreated{ID: product.ID}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -105,7 +105,7 @@ func updateProduct(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var product m.Product
+	var product catalog.Product
 	_ = json.NewDecoder(r.Body).Decode(&product)
 	if !product.IsValid() {
 		w.WriteHeader(http.StatusBadGateway)
@@ -124,7 +124,7 @@ func getIDparam(r *http.Request) (int, error) {
 	return strconv.Atoi(params["id"])
 }
 
-func handleError(w http.ResponseWriter, err *m.ProductError) {
+func handleError(w http.ResponseWriter, err *catalog.ProductError) {
 	log.Print(err)
 	w.WriteHeader(err.Code)
 }
