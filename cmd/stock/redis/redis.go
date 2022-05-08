@@ -14,12 +14,13 @@ var client *redis.Client
 
 // Init initializes redis client
 func Init() {
-	client = redis.NewClient(&redis.Options{
-		Addr: conf.RedisURL,
-		DB:   conf.RedisDatabase,
-	})
-	err := client.Ping(ctx.Background()).Err()
+	opts, err := redis.ParseURL(conf.RedisURL)
 	if err != nil {
+		log.Fatalf("Error parsing redis URL %s. Error: %s", conf.RedisURL, err)
+	}
+	client = redis.NewClient(opts)
+
+	if err := client.Ping(ctx.Background()).Err(); err != nil {
 		log.Fatalf("Error connecting to redis %s. Error: %s", conf.RedisURL, err)
 	}
 	log.Print("Connected to redis")
