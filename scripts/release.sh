@@ -11,7 +11,7 @@ function release() {
   name="$1"
   tag="$2"
   image="gotwaygateway/$name"
-  platform="linux/amd64,linux/arm64,linux/arm"
+  platform="linux/amd64,linux/arm64"
 
   echo "🏗    Building image '$image:$tag'..."
   docker buildx create --name "$name" --use --append
