@@ -1,0 +1,24 @@
+project_name: services
+builds:
+  - id: catalog
+    main: ./cmd/catalog
+    binary: catalog
+    goos:
+      - linux
+    goarch:
+      - arm64
+      - amd64
+    env:
+      - CGO_ENABLED=0
+  - id: stock
+    main: ./cmd/stock
+    binary: stock
+    goos:
+      - linux
+    goarch:
+      - arm64
+      - amd64
+    env:
+      - CGO_ENABLED=0
+archives:
+  - name_template: "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"

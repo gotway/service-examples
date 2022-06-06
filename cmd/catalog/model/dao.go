@@ -39,7 +39,10 @@ func (dao *ProductDAO) GetProducts(
 		return nil, catalog.NotFoundError
 	}
 
-	productPage := &catalog.ProductPage{slicedProducts, len(products)}
+	productPage := &catalog.ProductPage{
+		Products:   slicedProducts,
+		TotalCount: len(products),
+	}
 	return productPage, nil
 }
 

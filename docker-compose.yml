@@ -22,15 +22,6 @@ services:
     ports:
       - "13000:13000"
 
-  redis:
-    container_name: stock-redis
-    image: redis:6.2.4-alpine3.13
-    restart: unless-stopped
-    ports:
-      - "6379"
-    volumes:
-      - ./data/redis:/data
-
   route:
     container_name: route
     image: gotwaygateway/route:v0.0.3

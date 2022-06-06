@@ -38,7 +38,7 @@ func upsertStock(w http.ResponseWriter, r *http.Request) {
 	}
 	setHeaders(w)
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(resultStock)
+	_ = json.NewEncoder(w).Encode(resultStock)
 }
 
 func upsertStockList(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +57,7 @@ func upsertStockList(w http.ResponseWriter, r *http.Request) {
 	}
 	setHeaders(w)
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(&resultStockList)
+	_ = json.NewEncoder(w).Encode(&resultStockList)
 }
 
 func getStock(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,7 @@ func getStock(w http.ResponseWriter, r *http.Request) {
 	}
 	setHeaders(w)
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(stock)
+	_ = json.NewEncoder(w).Encode(stock)
 }
 
 func getStockList(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +92,7 @@ func getStockList(w http.ResponseWriter, r *http.Request) {
 	}
 	setHeaders(w)
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(&stockList)
+	_ = json.NewEncoder(w).Encode(&stockList)
 }
 
 func getProductID(r *http.Request) (int, error) {

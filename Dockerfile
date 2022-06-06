@@ -1,17 +1,21 @@
-FROM golang:1.15-alpine3.12 AS builder
+FROM golang:1.18.3-alpine3.16 AS builder
 
 ARG SERVICE
-
-ENV WORKDIR /go/src/gotway
+RUN test -n "$SERVICE" || (echo "Build argument \"SERVICE\" not set" && false)
+ENV WORKDIR /go/src/services
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
+RUN apk update && \
+  apk add --no-cache --update make bash git ca-certificates && \
+  update-ca-certificates
+
 COPY . .
 
-RUN CGO_ENABLED=0 go build -ldflags '-extldflags "-static"' -o bin/app cmd/$SERVICE/*.go
+RUN make build-$SERVICE
 
-FROM alpine:3.12.0
+FROM alpine:3.16.0
 
-COPY --from=builder /go/src/gotway/bin/app /app
+COPY --from=builder /go/src/services/bin/app /app
 
 CMD [ "/app" ]
