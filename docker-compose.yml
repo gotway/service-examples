@@ -21,12 +21,3 @@ services:
       - REDIS_URL=redis:6379
     ports:
       - "13000:13000"
-
-  route:
-    container_name: route
-    image: gotwaygateway/route:v0.0.3
-    restart: unless-stopped
-    environment:
-      - ROUTE_SERVICE_PORT=14000
-    ports:
-      - "14000:14000"
